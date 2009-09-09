@@ -1,0 +1,8 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: MTG Card Legality Checker Tests
+Bundle-SymbolicName: org.randomcoding.mtg.tools.legalitychecker.tests
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Random Coder (randomcoder@randomcoding.co.uk)
+Fragment-Host: MTGCardLegalityChecker;bundle-version="1.0.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
