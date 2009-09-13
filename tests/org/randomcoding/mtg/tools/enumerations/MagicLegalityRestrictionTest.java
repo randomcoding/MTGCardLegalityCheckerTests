@@ -14,18 +14,18 @@ public class MagicLegalityRestrictionTest
 	@Test
 	public void testIsMoreRestrictive() throws Exception
 	{
-		assertTrue(MagicLegalityRestriction.RESTRICTED.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.LEGAL));
-		assertTrue(MagicLegalityRestriction.BANNED.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.LEGAL));
-		assertTrue(MagicLegalityRestriction.BANNED.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.RESTRICTED));
-		assertTrue(MagicLegalityRestriction.NOT_PRESENT.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.LEGAL));
-		assertTrue(MagicLegalityRestriction.NOT_PRESENT.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.RESTRICTED));
-		assertTrue(MagicLegalityRestriction.NOT_PRESENT.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.BANNED));
+		assertTrue(MagicLegalityRestriction.RESTRICTED.isMoreRestrictiveThan(MagicLegalityRestriction.LEGAL));
+		assertTrue(MagicLegalityRestriction.BANNED.isMoreRestrictiveThan(MagicLegalityRestriction.LEGAL));
+		assertTrue(MagicLegalityRestriction.BANNED.isMoreRestrictiveThan(MagicLegalityRestriction.RESTRICTED));
+		assertTrue(MagicLegalityRestriction.NOT_PRESENT.isMoreRestrictiveThan(MagicLegalityRestriction.LEGAL));
+		assertTrue(MagicLegalityRestriction.NOT_PRESENT.isMoreRestrictiveThan(MagicLegalityRestriction.RESTRICTED));
+		assertTrue(MagicLegalityRestriction.NOT_PRESENT.isMoreRestrictiveThan(MagicLegalityRestriction.BANNED));
 
-		assertFalse(MagicLegalityRestriction.LEGAL.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.RESTRICTED));
-		assertFalse(MagicLegalityRestriction.LEGAL.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.BANNED));
-		assertFalse(MagicLegalityRestriction.LEGAL.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.NOT_PRESENT));
-		assertFalse(MagicLegalityRestriction.RESTRICTED.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.BANNED));
-		assertFalse(MagicLegalityRestriction.RESTRICTED.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.NOT_PRESENT));
-		assertFalse(MagicLegalityRestriction.BANNED.isNewRestrictionMoreRestrictive(MagicLegalityRestriction.NOT_PRESENT));
+		assertFalse(MagicLegalityRestriction.LEGAL.isMoreRestrictiveThan(MagicLegalityRestriction.RESTRICTED));
+		assertFalse(MagicLegalityRestriction.LEGAL.isMoreRestrictiveThan(MagicLegalityRestriction.BANNED));
+		assertFalse(MagicLegalityRestriction.LEGAL.isMoreRestrictiveThan(MagicLegalityRestriction.NOT_PRESENT));
+		assertFalse(MagicLegalityRestriction.RESTRICTED.isMoreRestrictiveThan(MagicLegalityRestriction.BANNED));
+		assertFalse(MagicLegalityRestriction.RESTRICTED.isMoreRestrictiveThan(MagicLegalityRestriction.NOT_PRESENT));
+		assertFalse(MagicLegalityRestriction.BANNED.isMoreRestrictiveThan(MagicLegalityRestriction.NOT_PRESENT));
 	}
 }
