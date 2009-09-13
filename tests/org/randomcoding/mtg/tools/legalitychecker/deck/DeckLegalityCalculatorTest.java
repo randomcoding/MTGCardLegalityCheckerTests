@@ -10,8 +10,8 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Test;
-import org.randomcoding.mtg.tools.legalitychecker.scraper.MagicDeckFormat;
-import org.randomcoding.mtg.tools.legalitychecker.scraper.MagicLegalityRestriction;
+import org.randomcoding.mtg.tools.enumerations.MagicDeckFormat;
+import org.randomcoding.mtg.tools.enumerations.MagicLegalityRestriction;
 
 /**
  * @author Tym The Enchanter
@@ -64,7 +64,11 @@ public class DeckLegalityCalculatorTest
 
 	private MtgDeck getDeckLegalInAllFormats()
 	{
-		// TODO Auto-generated method stub
-		return null;
+		MtgDeck deck = new MtgDeck("Deck Legal In All Formats");
+
+		deck.add("Megrim", 0, 0);
+		deck.add("Architects of Will", 179597, 4);
+
+		return deck;
 	}
 }
