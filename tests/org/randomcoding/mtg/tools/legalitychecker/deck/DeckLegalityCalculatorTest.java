@@ -1,7 +1,6 @@
 package org.randomcoding.mtg.tools.legalitychecker.deck;
 
 import static junit.framework.Assert.assertEquals;
-import static junit.framework.Assert.fail;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -15,6 +14,8 @@ import org.randomcoding.mtg.tools.enumerations.MagicLegalityRestriction;
  */
 public class DeckLegalityCalculatorTest
 {
+	private DeckLegalityCalculator legalityCalculator;
+
 	private static final String ARCHITECTS_OF_WILL_NAME = "Architects of Will"; // Legal in all formats (13/09/2009)
 	private static final int ARCHITECTS_OF_WILL_MULTIVERSE_ID = 179597;
 	private static final String MEGRIM_NAME = "Megrim"; // Legal in all formats (13/09/2009)
@@ -23,6 +24,14 @@ public class DeckLegalityCalculatorTest
 	private static final int TERROR_MULTIVERSE_ID = 135199;
 	private static final String ANKH_OF_MISHRA_NAME = "Ankh of Mishra"; // Legal in Vintage and Legacy Only
 	private static final int ANKH_OF_MISHRA_MULTIVERSE_ID = 1;
+	private static final String BAZAAR_OF_BAGHDAD_NAME = "Bazaar of Baghdad"; // Legal in Vintage, Banned in Legacy, not present in Standard and Extended
+	private static final int BAZAR_OF_BAGHDAD_MULTIVERSE_ID = 984;
+	private static final String WORLDGORGER_DRAGON_NAME = "Worldgorger Dragon";
+	private static final int WORLDGORGER_DRAGON_MULTIVERSE_ID = 35056;
+	private static final String FACT_OR_FICTION_NAME = "Fact or Fiction"; // Restricted in Vintage, legal in Legacy
+	private static final int FACT_OR_FICTION_MULTIVERSE_ID = 185819;
+	private static final String GIFTS_UNGIVEN_NAME = "Gifts Ungiven"; // Restricted in Vintage, legal in Legacy
+	private static final int GIFTS_UNGIVEN_MULTIVERSE_ID = 194971;
 
 	@Test(expected = CloneNotSupportedException.class)
 	public void testCloneThrowsCorrectException() throws Exception
@@ -38,7 +47,7 @@ public class DeckLegalityCalculatorTest
 		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.LEGAL);
 		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.LEGAL);
 		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.LEGAL);
-		assertEquals(expectedLegality, DeckLegalityCalculator.getDeckLegalityCalculator().checkDeckLegality(getDeckLegalInAllFormats()));
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckLegalInAllFormats()));
 	}
 
 	@Test
@@ -49,7 +58,7 @@ public class DeckLegalityCalculatorTest
 		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.LEGAL);
 		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.LEGAL);
 		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.LEGAL);
-		assertEquals(expectedLegality, DeckLegalityCalculator.getDeckLegalityCalculator().checkDeckLegality(getDeckLegalInAllFormatsExceptStandard()));
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckLegalInAllFormatsExceptStandard()));
 	}
 
 	@Test
@@ -60,31 +69,62 @@ public class DeckLegalityCalculatorTest
 		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.NOT_PRESENT);
 		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.LEGAL);
 		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.LEGAL);
-		assertEquals(expectedLegality, DeckLegalityCalculator.getDeckLegalityCalculator().checkDeckLegality(getDeckLegalInAllFormatsExceptStandardAndExtended()));
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckLegalInAllFormatsExceptStandardAndExtended()));
 	}
 
 	@Test
-	public void testLegalityForDeckWithBannedCard() throws Exception
+	public void testLegalityForDeckWithSingleBannedCard() throws Exception
 	{
-		fail("Not Implemented Yet");
+		Map<MagicDeckFormat, MagicLegalityRestriction> expectedLegality = new HashMap<MagicDeckFormat, MagicLegalityRestriction>();
+		expectedLegality.put(MagicDeckFormat.STANDARD, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.BANNED);
+		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.LEGAL);
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckWithSingleBannedCard()));
+	}
+
+	@Test
+	public void testLegalityForDeckWithMultipleSingleBannedCards() throws Exception
+	{
+		Map<MagicDeckFormat, MagicLegalityRestriction> expectedLegality = new HashMap<MagicDeckFormat, MagicLegalityRestriction>();
+		expectedLegality.put(MagicDeckFormat.STANDARD, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.BANNED);
+		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.LEGAL);
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckWithMultipleSingleBannedCards()));
 	}
 
 	@Test
 	public void testLegalityForDeckWithSingleRestrictedCard() throws Exception
 	{
-		fail("Not Implemented Yet");
+		Map<MagicDeckFormat, MagicLegalityRestriction> expectedLegality = new HashMap<MagicDeckFormat, MagicLegalityRestriction>();
+		expectedLegality.put(MagicDeckFormat.STANDARD, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.LEGAL);
+		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.LEGAL);
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckWithSingleRestrictedCard()));
 	}
 
 	@Test
-	public void testLegalityForDeckWithMultipleCopiesOfRestrictedCard() throws Exception
+	public void testLegalityForDeckWithMultipleCopiesOfSingleRestrictedCard() throws Exception
 	{
-		fail("Not Implemented Yet");
+		Map<MagicDeckFormat, MagicLegalityRestriction> expectedLegality = new HashMap<MagicDeckFormat, MagicLegalityRestriction>();
+		expectedLegality.put(MagicDeckFormat.STANDARD, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.LEGAL);
+		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.RESTRICTED);
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckWithMultipleCopiesOfSingleRestrictedCard()));
 	}
 
 	@Test
 	public void testLegalityForDeckWithMultipleSinlgeRestrictedCards() throws Exception
 	{
-		fail("Not Implemented Yet");
+		Map<MagicDeckFormat, MagicLegalityRestriction> expectedLegality = new HashMap<MagicDeckFormat, MagicLegalityRestriction>();
+		expectedLegality.put(MagicDeckFormat.STANDARD, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.NOT_PRESENT);
+		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.LEGAL);
+		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.LEGAL);
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckWithMultipleSingleRestrictedCards()));
 	}
 
 	private MtgDeck getDeckLegalInAllFormats()
@@ -110,7 +150,7 @@ public class DeckLegalityCalculatorTest
 
 	private MtgDeck getDeckLegalInAllFormatsExceptStandardAndExtended()
 	{
-		MtgDeck deck = new MtgDeck("Deck Legal In All Formats Except Standard");
+		MtgDeck deck = new MtgDeck("Deck Legal In All Formats Except Standard and Extended");
 
 		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
 		deck.add(TERROR_NAME, TERROR_MULTIVERSE_ID, 4);
@@ -118,5 +158,82 @@ public class DeckLegalityCalculatorTest
 		deck.add(ANKH_OF_MISHRA_NAME, ANKH_OF_MISHRA_MULTIVERSE_ID, 4);
 
 		return deck;
+	}
+
+	private MtgDeck getDeckWithSingleBannedCard()
+	{
+		MtgDeck deck = new MtgDeck("Deck With Single Banned Card");
+
+		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
+		deck.add(TERROR_NAME, TERROR_MULTIVERSE_ID, 4);
+		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 4);
+		deck.add(ANKH_OF_MISHRA_NAME, ANKH_OF_MISHRA_MULTIVERSE_ID, 4);
+		deck.add(BAZAAR_OF_BAGHDAD_NAME, BAZAR_OF_BAGHDAD_MULTIVERSE_ID, 1);
+
+		return deck;
+	}
+
+	private MtgDeck getDeckWithSingleRestrictedCard()
+	{
+		MtgDeck deck = new MtgDeck("Deck With Single Restricted Card");
+
+		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
+		deck.add(TERROR_NAME, TERROR_MULTIVERSE_ID, 4);
+		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 4);
+		deck.add(ANKH_OF_MISHRA_NAME, ANKH_OF_MISHRA_MULTIVERSE_ID, 4);
+		deck.add(FACT_OR_FICTION_NAME, FACT_OR_FICTION_MULTIVERSE_ID, 1);
+
+		return deck;
+	}
+
+	private MtgDeck getDeckWithMultipleCopiesOfSingleRestrictedCard()
+	{
+		MtgDeck deck = new MtgDeck("Deck With Multiple Copies of Single Restricted Card");
+
+		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
+		deck.add(TERROR_NAME, TERROR_MULTIVERSE_ID, 4);
+		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 4);
+		deck.add(ANKH_OF_MISHRA_NAME, ANKH_OF_MISHRA_MULTIVERSE_ID, 4);
+		deck.add(FACT_OR_FICTION_NAME, FACT_OR_FICTION_MULTIVERSE_ID, 4);
+
+		return deck;
+	}
+
+	private MtgDeck getDeckWithMultipleSingleRestrictedCards()
+	{
+		MtgDeck deck = new MtgDeck("Deck With Single Restricted Cards");
+
+		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
+		deck.add(TERROR_NAME, TERROR_MULTIVERSE_ID, 4);
+		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 4);
+		deck.add(ANKH_OF_MISHRA_NAME, ANKH_OF_MISHRA_MULTIVERSE_ID, 4);
+		deck.add(FACT_OR_FICTION_NAME, FACT_OR_FICTION_MULTIVERSE_ID, 1);
+		deck.add(GIFTS_UNGIVEN_NAME, GIFTS_UNGIVEN_MULTIVERSE_ID, 1);
+
+		return deck;
+	}
+
+	private MtgDeck getDeckWithMultipleSingleBannedCards()
+	{
+		MtgDeck deck = new MtgDeck("Deck With Multiple Single Banned Cards");
+
+		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
+		deck.add(TERROR_NAME, TERROR_MULTIVERSE_ID, 4);
+		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 4);
+		deck.add(ANKH_OF_MISHRA_NAME, ANKH_OF_MISHRA_MULTIVERSE_ID, 4);
+		deck.add(BAZAAR_OF_BAGHDAD_NAME, BAZAR_OF_BAGHDAD_MULTIVERSE_ID, 1);
+		deck.add(WORLDGORGER_DRAGON_NAME, WORLDGORGER_DRAGON_MULTIVERSE_ID, 1);
+
+		return deck;
+	}
+
+	private DeckLegalityCalculator getLegalityCalculator()
+	{
+		if (legalityCalculator == null)
+		{
+			legalityCalculator = DeckLegalityCalculator.getDeckLegalityCalculator();
+		}
+
+		return legalityCalculator;
 	}
 }
