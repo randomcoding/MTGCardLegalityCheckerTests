@@ -46,15 +46,15 @@ public class MtgDeckTest
 	}
 
 	@Test
-	public void testTryingToAddMoreThanFourCardsToDeckResultsInOnlyFourCardsBeingPresent() throws Exception
+	public void testTryingToAddMoreThanFourCardsToDeckResultsInAdditionalCardsCardsBeingPresent() throws Exception
 	{
 		MtgDeck deck = getDeck();
 		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 5);
-		assertEquals(4, deck.getCardCount(ARCHITECTS_OF_WILL_NAME));
+		assertEquals(5, deck.getCardCount(ARCHITECTS_OF_WILL_NAME));
 	}
 
 	@Test
-	public void testIncrementingTheCountOfCardInADeckAboveFourDeckResultsInOnlyFourCardsBeingPresent() throws Exception
+	public void testIncrementingTheCountOfCardInADeckAboveFourDeckResultsInAdditionalCardsCardsBeingPresent() throws Exception
 	{
 		MtgDeck deck = getDeck();
 		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 3);
@@ -62,9 +62,9 @@ public class MtgDeckTest
 		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 1);
 		assertEquals(4, deck.getCardCount(ARCHITECTS_OF_WILL_NAME));
 		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 1);
-		assertEquals(4, deck.getCardCount(ARCHITECTS_OF_WILL_NAME));
+		assertEquals(5, deck.getCardCount(ARCHITECTS_OF_WILL_NAME));
 		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 1);
-		assertEquals(4, deck.getCardCount(ARCHITECTS_OF_WILL_NAME));
+		assertEquals(6, deck.getCardCount(ARCHITECTS_OF_WILL_NAME));
 	}
 
 	@Test

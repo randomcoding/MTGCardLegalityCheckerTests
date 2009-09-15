@@ -127,12 +127,33 @@ public class DeckLegalityCalculatorTest
 		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckWithMultipleSingleRestrictedCards()));
 	}
 
+	@Test
+	public void testGetLegalityForDeckWithMoreThanFourCopiesOfACard() throws Exception
+	{
+		Map<MagicDeckFormat, MagicLegalityRestriction> expectedLegality = new HashMap<MagicDeckFormat, MagicLegalityRestriction>();
+		expectedLegality.put(MagicDeckFormat.STANDARD, MagicLegalityRestriction.ILLEGAL);
+		expectedLegality.put(MagicDeckFormat.EXTENDED, MagicLegalityRestriction.ILLEGAL);
+		expectedLegality.put(MagicDeckFormat.LEGACY, MagicLegalityRestriction.ILLEGAL);
+		expectedLegality.put(MagicDeckFormat.VINTAGE, MagicLegalityRestriction.ILLEGAL);
+		assertEquals(expectedLegality, getLegalityCalculator().checkDeckLegality(getDeckLegalInAllFormatsExceptThatItHasFiveCopiesOfOneCard()));
+	}
+
 	private MtgDeck getDeckLegalInAllFormats()
 	{
 		MtgDeck deck = new MtgDeck("Deck Legal In All Formats");
 
 		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
 		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 4);
+
+		return deck;
+	}
+
+	private MtgDeck getDeckLegalInAllFormatsExceptThatItHasFiveCopiesOfOneCard()
+	{
+		MtgDeck deck = new MtgDeck("Deck Legal In All Formats");
+
+		deck.add(MEGRIM_NAME, MEGRIM_MULTIVERSE_ID, 4);
+		deck.add(ARCHITECTS_OF_WILL_NAME, ARCHITECTS_OF_WILL_MULTIVERSE_ID, 5);
 
 		return deck;
 	}
